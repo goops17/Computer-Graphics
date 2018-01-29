@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="three.min.js"></script>
+    <script defer="defer">
+        
+      // revolutions per second
+      //var angularSpeed = 0.1; 
+      //var lastTime = 0;
+ 
+      if ( window.innerWidth === 0 ) { window.innerWidth = parent.innerWidth; window.innerHeight = parent.innerHeight; }
+
+      var camera, scene, renderer;
+      var geometry, material, mesh;
+      var newAxis; 
+      var earth, satrun, ring, moon,sun;
+      init();
+      animate();
+
+      function init() {
+        // camera
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.z = 900;
+   
+        // scene
+        scene = new THREE.Scene();
+
+        //axis helper
+        newAxis = new THREE.AxisHelper( 50 );
+        newAxis.position.set( 0, 0, 0 );
+        scene.add( newAxis );
+        
+        // material
+        var material = new THREE.MeshBasicMaterial({
+          map: THREE.ImageUtils.loadTexture('earth_texture.jpg')
+        });
+                  
+        // sphere
+        var geometry=new THREE.SphereGeometry(40,100,32);
+        earth = new THREE.Mesh(geometry, material);
+        earth.overdraw = true;
+        earth.position.set(-50,0,0);
+        //earth.rotation.z = -23;
+        scene.add(earth);
+
+        //moon doesn't work smooth
+        /*
+        // material
+        var material = new THREE.MeshBasicMaterial({
+          map: THREE.ImageUtils.loadTexture('moon_texture.jpg')
+        });
+                  
+        // sphere
+        var geometry=new THREE.SphereGeometry(20,100,32);
+        moon = new THREE.Mesh(geometry, material);
+        moon.overdraw = true;
+        moon.position.set(-300,0,0);
+        scene.add(moon);
+        */
+
+        // material
+        var material = new THREE.MeshBasicMaterial({
+          map: THREE.ImageUtils.loadTexture('saturn_texture.jpg')
+        });
+        
+                  
+        // satrun
+        var geometry=new THREE.SphereGeometry(190,100,32);
+        satrun = new THREE.Mesh(geometry, material);
+        satrun.overdraw = true;
+        satrun.position.set(800,0,0);
+        satrun.rotation.z = -3;
+        scene.add(satrun);
+
+        // material
+        var material = new THREE.MeshBasicMaterial({
+          map: THREE.ImageUtils.loadTexture('sun_texture.jpg')
+        });
+        
+                  
+        // sun
+        var geometry=new THREE.SphereGeometry(600,0,32);
+        sun = new THREE.Mesh(geometry, material);
+        sun.overdraw = true;
+        sun.position.set(-1400,0,0);
+        scene.add(sun);
+        
+
+        var geometry = new THREE.RingGeometry( 260, 200, 32);
+        var material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture('saturn_ring_texture.jpg'), side: THREE.DoubleSide } );
+        ring = new THREE.Mesh( geometry, material );
+        ring.position.set( 800, 20, 10 );
+        ring.rotation.x = 115;
+        scene.add( ring );
+
+
+	        // renderer
+	        renderer = new THREE.WebGLRenderer();
+	        renderer.setSize(window.innerWidth, window.innerHeight);
+	        document.body.appendChild(renderer.domElement);
+	   
+	        // start animation
+	        animate();
+	}
+
+
+      // this function is executed on each animation frame
+      function animate(){
+        // update
+        earth.rotation.y = Date.now() * 0.005;
+        satrun.rotation.y = Date.now() * -0.005;
+        sun.rotation.y = Date.now() * 0.0005;
+        //earth.rotation.z = -23;
+        ring.rotation.z = Date.now() * 0.0001;
+        /*
+        var x =Math.cos(new Date())*100-400;
+       	var y = Math.sin(new Date())*50;
+       	moon.position.set(x,y,0);
+       	*/
+ 
+        // render
+        renderer.render(scene, camera);
+ 
+        // request new frame
+       	requestAnimationFrame(function(){
+        animate();
+        });
+      }
+    </script>
+  </body>
+</html>
+
