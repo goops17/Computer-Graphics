@@ -1,0 +1,21 @@
+// Project Requirement
+
+1) Create a scene
+
+2) Render car : Replaced car with a sphere object because car didn't look good in small track
+
+3) Circular path
+
+4) Oval path for enemy car
+
+5) Car’s circular movement
+
+6) Points system
+
+7) Particle effect : Created sudo particle effect by using z axis
+
+8) Random speed for enemy cars
+
+9) Collision detection
+
+10) Game over screen
